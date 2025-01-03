@@ -52,7 +52,7 @@
         android:id="@+id/shareButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Compartilhar"
+        android:text="Share viar"
         app:layout_constraintStart_toEndOf="@id/moreButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
