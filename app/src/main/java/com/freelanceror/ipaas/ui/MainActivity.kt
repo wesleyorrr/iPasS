@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        viewModel.fetchPictures("YOUR_API_KEY_HERE")
+        viewModel.fetchPictures("5nOGVas4n3aOTDeefDcWwmem4r3tSNWbdjC5Z6qN")
         viewModel.pictures.observe(this) { pictures ->
             binding.recyclerView.adapter = PictureAdapter(this, pictures)
             { picture ->
