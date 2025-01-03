@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, "${picture.title}\n${picture.hdurl}")
-            startActivity(Intent.createChooser(shareIntent, "Compartilhar via"))
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
     }
 }
