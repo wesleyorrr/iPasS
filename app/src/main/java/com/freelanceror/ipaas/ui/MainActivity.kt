@@ -11,27 +11,35 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.freelanceror.ipaas.viewmodel.MainViewModel
 import com.freelanceror.ipaas.adapter.PictureAdapter
 import com.freelanceror.ipaas.databinding.ActivityMainBinding
+import com.freelanceror.ipaas.utils.Constants
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var adapter: PictureAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = PictureAdapter(this, listOf()) { picture ->
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("PICTURE", picture)
+            startActivity(intent)
+        }
 
-        viewModel.fetchPictures("5nOGVas4n3aOTDeefDcWwmem4r3tSNWbdjC5Z6qN")
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
+
+        observeViewModel()
+        viewModel.fetchPictures(Constants.NASA_API_KEY)
+    }
+
+    private fun observeViewModel() {
         viewModel.pictures.observe(this) { pictures ->
-            binding.recyclerView.adapter = PictureAdapter(this, pictures)
-            { picture ->
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("PICTURE", picture)
-                startActivity(intent)
-            }
+            adapter.updateList(pictures)
         }
 
         viewModel.error.observe(this) { error ->

@@ -49,6 +49,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.retrofit)
+    implementation (libs.logging.interceptor)
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+
     implementation (libs.converter.gson)
     implementation (libs.glide)
     testImplementation(libs.junit)

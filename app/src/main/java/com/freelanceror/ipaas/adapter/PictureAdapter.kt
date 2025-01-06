@@ -13,7 +13,7 @@ import com.freelanceror.ipaas.R
 
 class PictureAdapter(
     private val context: Context,
-    private val pictures: List<NasaPicture>,
+    private var pictures: List<NasaPicture>,
     private val onClick: (NasaPicture) -> Unit
 ) : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
@@ -29,6 +29,11 @@ class PictureAdapter(
     }
 
     override fun getItemCount() = pictures.size
+
+    fun updateList(newList: List<NasaPicture>) {
+        pictures = newList
+        notifyDataSetChanged()
+    }
 
     inner class PictureViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageView)

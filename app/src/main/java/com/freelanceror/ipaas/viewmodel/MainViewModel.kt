@@ -1,23 +1,38 @@
 package com.freelanceror.ipaas.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freelanceror.ipaas.model.NasaPicture
-import com.freelanceror.ipaas.repository.NasaRepository
+import com.freelanceror.ipaas.network.RetrofitInstance
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel : ViewModel() {
-    private val repository = NasaRepository()
-    val pictures = MutableLiveData<List<NasaPicture>>()
-    val error = MutableLiveData<String>()
+
+    private val _pictures = MutableLiveData<List<NasaPicture>>()
+    val pictures: LiveData<List<NasaPicture>> get() = _pictures
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
 
     fun fetchPictures(apiKey: String) {
         viewModelScope.launch {
+            _loading.value = true
             try {
-                pictures.value = repository.getPictures(apiKey)
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitInstance.api.getPictures(apiKey)
+                }
+                _pictures.value = response
             } catch (e: Exception) {
-                error.value = e.message
+                _error.value = "Erro ao carregar dados: ${e.message}"
+            } finally {
+                _loading.value = false
             }
         }
     }

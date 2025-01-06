@@ -16,10 +16,9 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Delay de 6 segundos antes de ir para a MainActivity
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
-            finish() // Finaliza a Splash Activity para não retornar a ela
+            finish()
         }, 6000)
     }
 }
