@@ -53,7 +53,8 @@ dependencies {
     // Coroutines
     implementation (libs.kotlinx.coroutines.core)
     implementation (libs.kotlinx.coroutines.android)
-
+    implementation (libs.coil)
+    implementation (libs.coil.gif)
     implementation (libs.converter.gson)
     implementation (libs.glide)
     testImplementation(libs.junit)

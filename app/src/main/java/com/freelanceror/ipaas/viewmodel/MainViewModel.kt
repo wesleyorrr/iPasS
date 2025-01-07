@@ -18,12 +18,13 @@ class MainViewModel : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> get() = _error
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> get() = _error
 
     fun fetchPictures(apiKey: String) {
         viewModelScope.launch {
             _loading.value = true
+            _error.value = null // Limpa qualquer erro anterior
             try {
                 val response = withContext(Dispatchers.IO) {
                     RetrofitInstance.api.getPictures(apiKey)
