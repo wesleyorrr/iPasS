@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.freelanceror.ipaas.data.PreferencesManager
 import com.freelanceror.ipaas.model.NasaPicture
 import com.freelanceror.ipaas.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val preferencesManager: PreferencesManager) : ViewModel() {
 
     private val _pictures = MutableLiveData<List<NasaPicture>>()
     val pictures: LiveData<List<NasaPicture>> get() = _pictures
@@ -21,6 +22,11 @@ class MainViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
 
+    init {
+        // Carregar dados salvos ao inicializar
+        _pictures.value = preferencesManager.getSavedPictures()
+    }
+
     fun fetchPictures(apiKey: String) {
         viewModelScope.launch {
             _loading.value = true
@@ -30,6 +36,7 @@ class MainViewModel : ViewModel() {
                     RetrofitInstance.api.getPictures(apiKey)
                 }
                 _pictures.value = response
+                preferencesManager.savePictures(response) // Salvar os dados no SharedPreferences
             } catch (e: Exception) {
                 _error.value = "Erro ao carregar dados: ${e.message}"
             } finally {

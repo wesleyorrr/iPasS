@@ -2,14 +2,14 @@ package com.freelanceror.ipaas.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
+
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freelanceror.ipaas.model.NasaPicture
-import com.freelanceror.ipaas.R
+
+import com.freelanceror.ipaas.databinding.ItemPictureBinding
 
 class PictureAdapter(
     private val context: Context,
@@ -18,8 +18,9 @@ class PictureAdapter(
 ) : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_picture, parent, false)
-        return PictureViewHolder(view)
+        // Inflate o layout usando View Binding
+        val binding = ItemPictureBinding.inflate(LayoutInflater.from(context), parent, false)
+        return PictureViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
@@ -35,13 +36,12 @@ class PictureAdapter(
         notifyDataSetChanged()
     }
 
-    inner class PictureViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        private val titleView: TextView = itemView.findViewById(R.id.titleView)
+    inner class PictureViewHolder(private val binding: ItemPictureBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(picture: NasaPicture) {
-            Glide.with(context).load(picture.url).into(imageView)
-            titleView.text = picture.title
+            // Use o binding para acessar os elementos da view
+            Glide.with(context).load(picture.url).into(binding.imageView)
+            binding.titleView.text = picture.title
         }
     }
 }
