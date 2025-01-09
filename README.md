@@ -44,7 +44,12 @@ iPassS é um aplicativo Android que permite explorar imagens incríveis do APOD 
 - Android Studio instalado.
 - Chave da API da NASA (obtenha em [NASA API](https://api.nasa.gov)).
 
+ ### App
+   ![Demonstração do App](https://github.com/wesleyorrr/iPasS/blob/main/github.gif)
+
 ### Passos
 1. Clone este repositório:
    ```bash
    git clone https://github.com/seu-usuario/nasa-picture-viewer.git
+
+  
